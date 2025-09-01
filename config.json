@@ -1,0 +1,33 @@
+{
+  "system": {
+    "name": "AI驱动的DPU实时网络风险预警与自动防御系统",
+    "version": "1.0.0",
+    "description": "NVIDIA DPU黑客松竞赛项目 - 简易版"
+  },
+  "simulation": {
+    "update_interval": 1,
+    "anomaly_duration": 30,
+    "base_metrics": {
+      "packets_per_sec": 1000,
+      "bytes_per_sec": 1000000,
+      "active_connections": 100,
+      "cpu_usage": 30.0,
+      "memory_usage": 50.0
+    }
+  },
+  "detection": {
+    "risk_threshold": 70.0,
+    "anomaly_threshold": 80.0,
+    "confidence_threshold": 0.7
+  },
+  "defense": {
+    "auto_trigger": true,
+    "rule_expiry": 300,
+    "max_rules": 100
+  },
+  "ui": {
+    "chart_update_interval": 1000,
+    "alert_update_interval": 2000,
+    "max_chart_points": 30
+  }
+} 

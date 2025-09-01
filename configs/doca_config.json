@@ -1,0 +1,33 @@
+{
+  "dpu_config": {
+    "device_id": "0000:01:00.0",
+    "firmware_version": "24.35.2000",
+    "doca_version": "1.5.0",
+    "pcie_config": {
+      "max_payload_size": "512",
+      "max_read_request_size": "512"
+    }
+  },
+  "network_config": {
+    "interface": "ens1f0",
+    "ip_address": "192.168.1.100",
+    "netmask": "255.255.255.0",
+    "gateway": "192.168.1.1",
+    "mtu": 1500
+  },
+  "application_config": {
+    "log_level": "INFO",
+    "max_connections": 1000,
+    "buffer_size": 8192,
+    "timeout_ms": 5000
+  },
+  "performance_config": {
+    "cpu_cores": [0, 1, 2, 3],
+    "memory_pools": {
+      "small": 4096,
+      "medium": 16384,
+      "large": 65536
+    },
+    "queue_depth": 1024
+  }
+} 

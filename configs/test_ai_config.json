@@ -1,0 +1,9 @@
+{
+  "hidden_size": 32,
+  "num_layers": 1,
+  "sequence_length": 5,
+  "dropout": 0.2,
+  "risk_threshold": 0.7,
+  "confidence_threshold": 0.6,
+  "update_interval": 1.0
+}

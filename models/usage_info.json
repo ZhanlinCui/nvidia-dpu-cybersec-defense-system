@@ -1,0 +1,9 @@
+{
+  "model_path": "models/anomaly_lstm.pth",
+  "config_path": "configs/ai_model_config.json",
+  "usage": {
+    "load_model": "detector = AIAnomalyDetector(model_path='models/anomaly_lstm.pth')",
+    "detect_anomaly": "result = detector.detect_anomaly(metrics_dict)",
+    "get_status": "status = detector.get_model_status()"
+  }
+}

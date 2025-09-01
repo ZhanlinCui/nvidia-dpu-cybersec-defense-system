@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 驱动的 DPU 实时网络风险预警与自动防御系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- 顶部背景和logo -->
+        <div class="row header position-relative" style="overflow:hidden;">
+            <img src="{{ url_for('static', filename='img/background.jpg') }}" alt="NVIDIA Background" class="header-bg">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="NVIDIA Logo" class="header-logo">
+            <div class="col-12" style="position:relative;z-index:1;">
+                <h1 class="text-center header-title">
+                    <i class="fas fa-shield-alt"></i>
+                    AI 驱动的 DPU 实时网络风险预警与自动防御系统
+                </h1>
+                <p class="text-center header-subtitle">NVIDIA DPU Hackthon Team Horizon Publish</p>
+            </div>
+        </div>
+
+        <!-- 控制面板 -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-cogs"></i> 控制面板</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="control-buttons-grid">
+                            <button id="startSimulation" class="control-btn control-btn-success">
+                                <i class="fas fa-play"></i>
+                                <span>启动模拟</span>
+                            </button>
+                            <button id="stopSimulation" class="control-btn control-btn-danger">
+                                <i class="fas fa-stop"></i>
+                                <span>停止模拟</span>
+                            </button>
+                            <button id="triggerDDoS" class="control-btn control-btn-warning">
+                                <i class="fas fa-bolt"></i>
+                                <span>触发DDoS</span>
+                            </button>
+                            <button id="triggerResource" class="control-btn control-btn-info">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>资源耗尽</span>
+                            </button>
+                            <div class="control-btn-group">
+                                <button id="autoMode" class="control-btn control-btn-primary active">
+                                    <i class="fas fa-robot"></i>
+                                    <span>自动模式</span>
+                                </button>
+                                <button id="manualMode" class="control-btn control-btn-secondary">
+                                    <i class="fas fa-hand-paper"></i>
+                                    <span>手动模式</span>
+                                </button>
+                            </div>
+                            <button id="manualDefense" class="control-btn control-btn-danger" disabled>
+                                <i class="fas fa-shield-alt"></i>
+                                <span>手动防御</span>
+                            </button>
+                            <button id="disableDefense" class="control-btn control-btn-warning" disabled>
+                                <i class="fas fa-times-circle"></i>
+                                <span>关闭防御</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主要指标 -->
+        <div class="row metrics-row">
+            <!-- 风险评分 -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <div class="metric-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 id="riskScore" class="metric-value">0</h3>
+                        <p class="metric-label">风险评分</p>
+                        <div class="progress">
+                            <div id="riskProgress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统状态 -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <div class="metric-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 id="systemStatus" class="metric-value status-normal">正常</h3>
+                        <p class="metric-label">系统状态</p>
+                        <div id="statusIndicator" class="status-indicator normal"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据包/秒 -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <div class="metric-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 id="packetsPerSec" class="metric-value">0</h3>
+                        <p class="metric-label">数据包/秒</p>
+                        <small class="text-muted">PPS</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 活跃连接 -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body text-center">
+                        <div class="metric-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <h3 id="activeConnections" class="metric-value">0</h3>
+                        <p class="metric-label">活跃连接</p>
+                        <small class="text-muted">Connections</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图表和详细信息 -->
+        <div class="row charts-row">
+            <!-- 实时图表 -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-line"></i> 实时监控</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="metricsChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 告警面板 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-bell"></i> 实时告警</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="alertsContainer" class="alerts-container">
+                            <div class="text-center text-muted">
+                                <i class="fas fa-check-circle fa-2x"></i>
+                                <p>暂无告警</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 详细信息 -->
+        <div class="row details-row">
+            <!-- 网络指标详情 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-bar"></i> 网络指标详情</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <p><strong>字节/秒:</strong> <span id="bytesPerSec">0</span></p>
+                                <p><strong>丢包数:</strong> <span id="droppedPackets">0</span></p>
+                                <p><strong>加密命中:</strong> <span id="encryptionHits">0</span></p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>CPU使用率:</strong> <span id="cpuUsage">0%</span></p>
+                                <p><strong>内存使用率:</strong> <span id="memoryUsage">0%</span></p>
+                                <p><strong>错误计数:</strong> <span id="errorCount">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 防御状态 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-shield-alt"></i> 防御状态</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="defenseStatus">
+                            <p><strong>防御状态:</strong> <span id="defenseActive">未激活</span></p>
+                            <p><strong>防御模式:</strong> <span id="defenseMode">自动</span></p>
+                            <p><strong>活跃规则:</strong> <span id="activeRules">0</span></p>
+                            <p><strong>最后触发:</strong> <span id="lastTrigger">-</span></p>
+                            <p><strong>防御效果:</strong> <span id="defenseEffectiveness">0%</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI智能监测模块 -->
+        <div class="ai-monitoring-section">
+            <div class="ai-monitoring-header">
+                <h2 class="ai-monitoring-title">
+                    <div class="ai-icon">AI</div>
+                    AI智能监测
+                </h2>
+                <div class="ai-status-indicator">
+                    <div class="ai-status-dot"></div>
+                    <span id="ai-status-text">运行中</span>
+                    <div class="ai-timer-container">
+                        <i class="fas fa-clock"></i>
+                        <span id="ai-runtime-timer">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-metrics-grid" id="ai-metrics-grid">
+                <div class="ai-metric-card">
+                    <div class="ai-metric-header">
+                        <h3 class="ai-metric-title">检测模式</h3>
+                        <svg class="ai-metric-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="ai-metric-value" id="ai-detection-mode">混合模式</div>
+                    <div class="ai-metric-change neutral">
+                        <span>规则+AI检测</span>
+                    </div>
+                </div>
+                
+                <div class="ai-metric-card">
+                    <div class="ai-metric-header">
+                        <h3 class="ai-metric-title">风险评分</h3>
+                        <svg class="ai-metric-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </div>
+                    <div class="ai-metric-value" id="ai-risk-score">0</div>
+                    <div class="ai-metric-change" id="ai-risk-change">
+                        <span>正常</span>
+                    </div>
+                </div>
+                
+                <div class="ai-metric-card">
+                    <div class="ai-metric-header">
+                        <h3 class="ai-metric-title">检测准确率</h3>
+                        <svg class="ai-metric-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="ai-metric-value" id="ai-accuracy">0%</div>
+                    <div class="ai-metric-change positive">
+                        <span>高精度</span>
+                    </div>
+                </div>
+                
+                <div class="ai-metric-card">
+                    <div class="ai-metric-header">
+                        <h3 class="ai-metric-title">历史数据</h3>
+                        <svg class="ai-metric-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <div class="ai-metric-value" id="ai-data-points">0</div>
+                    <div class="ai-metric-change neutral">
+                        <span>数据点</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 预测性分析模块 -->
+        <div class="prediction-section">
+            <div class="prediction-header">
+                <h2 class="prediction-title">
+                    <div class="prediction-icon">🔮</div>
+                    预测性分析
+                </h2>
+                <div class="prediction-controls">
+                    <div class="prediction-timer-info">
+                        <div class="prediction-timer">
+                            <i class="fas fa-stopwatch"></i>
+                            <span>运行时间: </span>
+                            <span id="prediction-runtime-timer">00:00:00</span>
+                        </div>
+                        <div class="prediction-update-indicator">
+                            <div class="update-dot" id="prediction-update-dot"></div>
+                            <span id="prediction-last-update">正在更新...</span>
+                        </div>
+                    </div>
+                    <button class="time-selector" data-hours="6">6小时</button>
+                    <button class="time-selector" data-hours="12">12小时</button>
+                    <button class="time-selector active" data-hours="24">24小时</button>
+                    <button class="time-selector" data-hours="48">48小时</button>
+                </div>
+            </div>
+            
+            <div class="prediction-grid">
+                <!-- 攻击概率预测图表 -->
+                <div class="prediction-card prediction-card-large">
+                    <div class="prediction-card-header">
+                        <h3 class="prediction-card-title">攻击概率预测</h3>
+                        <svg class="prediction-card-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"/>
+                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"/>
+                        </svg>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="prediction-chart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 预测洞察 -->
+                <div class="insights-panel">
+                    <div class="insights-header">
+                        <svg style="width: 24px; height: 24px;" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <h3 class="insights-title">智能洞察</h3>
+                    </div>
+                    <div class="insights-grid" id="prediction-insights">
+                        <div class="insight-item info">
+                            <div class="insight-label">短期风险</div>
+                            <div class="insight-value" id="short-term-risk">计算中...</div>
+                            <div class="insight-description">未来6小时内的风险评估</div>
+                        </div>
+                        
+                        <div class="insight-item warning">
+                            <div class="insight-label">趋势分析</div>
+                            <div class="insight-value" id="trend-analysis">计算中...</div>
+                            <div class="insight-description">整体风险趋势走向</div>
+                        </div>
+                        
+                        <div class="insight-item info">
+                            <div class="insight-label">置信度</div>
+                            <div class="insight-value" id="confidence-level">计算中...</div>
+                            <div class="insight-description">预测结果的可信度</div>
+                        </div>
+                        
+                        <div class="insight-item danger">
+                            <div class="insight-label">建议操作</div>
+                            <div class="insight-value" id="recommendation">计算中...</div>
+                            <div class="insight-description">基于预测的行动建议</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 风险热力图和时间线并排 -->
+                <div class="prediction-row">
+                    <!-- 风险热力图 -->
+                    <div class="prediction-card prediction-card-small">
+                        <div class="prediction-card-header">
+                            <h3 class="prediction-card-title">风险热力图</h3>
+                            <svg class="prediction-card-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                            </svg>
+                        </div>
+                        <div class="heatmap-container" id="risk-heatmap">
+                            <div class="chart-placeholder">正在加载热力图...</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 时间线 -->
+                    <div class="prediction-card prediction-card-small">
+                        <div class="prediction-card-header">
+                            <h3 class="prediction-card-title">风险时间线</h3>
+                            <svg class="prediction-card-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
+                            </svg>
+                        </div>
+                        <div class="timeline-container" id="risk-timeline">
+                            <div class="chart-placeholder">正在加载时间线...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html> 
