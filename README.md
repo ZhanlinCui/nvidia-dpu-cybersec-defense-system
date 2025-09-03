@@ -21,7 +21,21 @@
 
 ## 👥 开发团队
 *本项目由新南威尔士大学计算机科学本科生崔湛林担任项目负责人与首席架构，新加坡区块链与AI专家Zeke和AI开发者严阳共同开发，获得最终以创新第一，完成度第一，商业化第一夺得2025 英伟达DPU黑客松冠军* 
-### 核心开发团队
+### 项目结构
+nvidia-dpu-cybersec-defense-system/
+├── README.md                    # 项目主要文档
+├── PROJECT_STRUCTURE.md         # 项目结构说明
+├── .gitignore                   # Git忽略文件配置
+├── start.sh                     # 便捷启动脚本
+├── app.py                       # Flask Web应用主入口
+├── run.py                       # 快速启动脚本
+├── configs/                     # 配置文件目录
+├── models/                      # AI模型文件
+├── src/                         # 源代码目录
+├── static/                      # 静态资源
+├── templates/                   # HTML模板
+├── docs/                        # 文档目录
+└── examples/                    # 示例和测试脚本
 
 ## 🚀 核心技术创新点
 
