@@ -117,16 +117,21 @@ Thumbs.db
 
 # Project specific
 logs/
-*.log
 data/
-temp/
-tmp/
+*.log
+*.tmp
+*.temp
 
-# Model files (if too large)
-# models/*.pth
-# models/*.h5
-# models/*.onnx
+# Model files (keep only essential ones)
+models/*.pth
+!models/anomaly_lstm.pth
+!models/usage_info.json
 
-# Config files with sensitive data
-# config.json
-# .env.local
+# Test files
+test_*.py
+*_test.py
+tests/
+
+# Empty directories
+scripts/
+k8s/

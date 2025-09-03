@@ -651,8 +651,8 @@ Chrome/Firefox/Safari浏览器
 ### 7.2 启动步骤
 ```bash
 # 1. 克隆项目
-git clone https://github.com/ZhanlinCui/nvidia-dpu-defense-system
-cd nvidia-dpu-defense
+git clone https://github.com/ZhanlinCui/nvidia-dpu-cybersec-defense-system
+cd nvidia-dpu-cybersec-defense-system
 
 # 2. 安装依赖
 pip install -r requirements.txt
@@ -670,7 +670,28 @@ python3 app.py
 python3 run.py
 ```
 
-### 7.4 使用流程
+### 7.4 项目结构
+```
+nvidia-dpu-cybersec-defense-system/
+├── README.md                    # 项目主要文档
+├── PROJECT_STRUCTURE.md         # 项目结构说明
+├── app.py                       # Flask Web应用主入口
+├── run.py                       # 快速启动脚本
+├── configs/                     # 配置文件目录
+├── models/                      # AI模型文件
+├── src/                         # 源代码目录
+│   ├── ai_engine/               # AI引擎模块
+│   ├── dpu_apps/                # DPU应用模块
+│   └── host_apps/               # 主机应用模块
+├── static/                      # 静态资源
+├── templates/                   # HTML模板
+├── docs/                        # 文档目录
+└── examples/                    # 示例和测试脚本
+```
+
+详细的项目结构说明请参考 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
+
+### 7.5 使用流程
 1. **启动模拟**: 点击"启动模拟"开始监控
 2. **触发异常**: 点击"触发DDoS"或"触发资源耗尽"
 3. **观察防御**: 系统自动或手动触发防御
