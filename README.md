@@ -476,7 +476,7 @@ Chrome/Firefox/Safari浏览器
 ### 7.2 启动步骤
 ```bash
 # 1. 克隆项目
-git clone https://github.com/your-username/nvidia-dpu-defense.git
+git clone https://github.com/ZhanlinCui/nvidia-dpu-defense-system
 cd nvidia-dpu-defense
 
 # 2. 安装依赖
