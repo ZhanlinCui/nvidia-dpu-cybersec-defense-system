@@ -476,11 +476,11 @@ Chrome/Firefox/Safari浏览器
 ### 7.2 启动步骤
 ```bash
 # 1. 克隆项目
-git clone <repository_url>
+git clone https://github.com/your-username/nvidia-dpu-defense.git
 cd nvidia-dpu-defense
 
 # 2. 安装依赖
-pip install flask
+pip install -r requirements.txt
 
 # 3. 启动服务
 python3 app.py
@@ -489,7 +489,13 @@ python3 app.py
 打开浏览器访问: http://localhost:5002
 ```
 
-### 7.3 使用流程
+### 7.3 快速开始
+```bash
+# 一键启动（推荐）
+python3 run.py
+```
+
+### 7.4 使用流程
 1. **启动模拟**: 点击"启动模拟"开始监控
 2. **触发异常**: 点击"触发DDoS"或"触发资源耗尽"
 3. **观察防御**: 系统自动或手动触发防御
