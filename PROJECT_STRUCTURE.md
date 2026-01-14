@@ -1,151 +1,154 @@
-# 项目结构说明
+# Project Structure
 
-## 📁 项目目录结构
+## 📁 Directory Structure
 
 ```
 nvidia-dpu-cybersec-defense-system/
-├── README.md                    # 项目主要文档
-├── PROJECT_STRUCTURE.md         # 项目结构说明
-├── .gitignore                   # Git忽略文件配置
-├── requirements.txt             # 基础依赖
-├── requirements_ai.txt          # AI模型依赖
-├── config.json                  # 主配置文件
-├── app.py                       # Flask Web应用主入口
-├── run.py                       # 快速启动脚本
+├── README.md                    # Main documentation
+├── PROJECT_STRUCTURE.md         # Project structure guide
+├── .gitignore                   # Git ignore configuration
+├── requirements.txt             # Base dependencies
+├── requirements_ai.txt          # AI model dependencies
+├── config.json                  # Main configuration file
+├── app.py                       # Flask web application entry
+├── run.py                       # Quick launch script
 │
-├── configs/                     # 配置文件目录
-│   ├── ai_model_config.json     # AI模型配置
-│   └── doca_config.json         # DOCA硬件配置
+├── configs/                     # Configuration directory
+│   ├── ai_model_config.json     # AI model configuration
+│   └── doca_config.json         # DOCA hardware configuration
 │
-├── models/                      # AI模型文件
-│   ├── anomaly_lstm.pth         # 训练好的LSTM模型
-│   └── usage_info.json          # 模型使用信息
+├── models/                      # AI model files
+│   ├── anomaly_lstm.pth         # Trained LSTM model
+│   └── usage_info.json          # Model usage information
 │
-├── src/                         # 源代码目录
-│   ├── ai_engine/               # AI引擎模块
-│   │   ├── inference/           # 推理模块
-│   │   │   ├── ai_anomaly_detector.py    # AI异常检测器
-│   │   │   ├── anomaly_detector.py       # TensorRT推理服务
-│   │   │   └── predictive_analyzer.py    # 预测性分析器
-│   │   ├── models/              # 模型定义
-│   │   │   └── simple_lstm.py   # LSTM模型实现
-│   │   └── training/            # 训练模块
-│   │       └── data_processor.py # 数据处理器
+├── src/                         # Source code directory
+│   ├── ai_engine/               # AI engine module
+│   │   ├── inference/           # Inference module
+│   │   │   ├── ai_anomaly_detector.py    # AI anomaly detector
+│   │   │   ├── anomaly_detector.py       # TensorRT inference service
+│   │   │   └── predictive_analyzer.py    # Predictive analyzer
+│   │   ├── models/              # Model definitions
+│   │   │   └── simple_lstm.py   # LSTM model implementation
+│   │   └── training/            # Training module
+│   │       └── data_processor.py # Data processor
 │   │
-│   ├── dpu_apps/                # DPU应用模块
-│   │   └── telemetry/           # 遥测数据收集
-│   │       └── telemetry_collector.c  # C语言遥测收集器
+│   ├── dpu_apps/                # DPU application module
+│   │   └── telemetry/           # Telemetry data collection
+│   │       └── telemetry_collector.c  # C telemetry collector
 │   │
-│   └── host_apps/               # 主机应用模块
+│   └── host_apps/               # Host application module
 │
-├── static/                      # 静态资源
+├── static/                      # Static resources
 │   ├── css/
-│   │   └── dashboard.css        # 仪表板样式
+│   │   └── dashboard.css        # Dashboard styles
 │   ├── js/
-│   │   ├── dashboard.js         # 仪表板交互逻辑
-│   │   └── i18n.js              # 国际化支持
+│   │   ├── dashboard.js         # Dashboard interaction logic
+│   │   └── i18n.js              # Internationalization support
 │   └── img/
-│       ├── background.jpg       # 背景图片
-│       └── logo.png             # 项目Logo
+│       ├── background.jpg       # Background image
+│       └── logo.png             # Project logo
 │
-├── templates/                   # HTML模板
-│   └── dashboard.html           # 主仪表板页面
+├── templates/                   # HTML templates
+│   └── dashboard.html           # Main dashboard page
 │
-├── docs/                        # 文档目录
-│   ├── competition_guide.md     # 竞赛指南
-│   └── development_without_hardware.md  # 无硬件开发指南
+├── docs/                        # Documentation directory
+│   ├── competition_guide.md     # Competition guide
+│   └── development_without_hardware.md  # Development guide without hardware
 │
-└── examples/                    # 示例和测试脚本
-    ├── test_ai_model.py         # AI模型测试脚本
-    └── train_ai_model.py        # AI模型训练脚本
+└── examples/                    # Examples and test scripts
+    ├── test_ai_model.py         # AI model test script
+    └── train_ai_model.py        # AI model training script
 ```
 
-## 🔧 核心组件说明
+## 🔧 Core Components
 
-### 主要应用文件
-- **app.py**: Flask Web应用主入口，提供REST API和Web界面
-- **run.py**: 快速启动脚本，自动检测环境并启动服务
-- **config.json**: 主配置文件，包含系统运行参数
+### Main Application Files
+- **app.py**: Flask web application entry, provides REST API and web interface
+- **run.py**: Quick launch script with automatic environment detection
+- **config.json**: Main configuration file with system runtime parameters
 
-### 核心业务逻辑
-- **anomaly_detector.py**: 基于规则的异常检测器
-- **integrate_ai_detector.py**: 混合AI检测器（规则+AI融合）
-- **defense_controller.py**: 智能防御控制器
-- **telemetry_simulator.py**: 遥测数据模拟器
+### Core Business Logic
+- **anomaly_detector.py**: Rule-based anomaly detector
+- **integrate_ai_detector.py**: Hybrid AI detector (rule + AI fusion)
+- **defense_controller.py**: Intelligent defense controller
+- **telemetry_simulator.py**: Telemetry data simulator
 
-### AI引擎模块
-- **simple_lstm.py**: 轻量化LSTM模型实现
-- **ai_anomaly_detector.py**: AI异常检测推理服务
-- **predictive_analyzer.py**: 预测性分析引擎
-- **data_processor.py**: 数据预处理和特征工程
+### AI Engine Module
+- **simple_lstm.py**: Lightweight LSTM model implementation
+- **ai_anomaly_detector.py**: AI anomaly detection inference service
+- **predictive_analyzer.py**: Predictive analysis engine
+- **data_processor.py**: Data preprocessing and feature engineering
 
-### 前端界面
-- **dashboard.html**: 现代化Web仪表板
-- **dashboard.js**: 实时数据更新和交互逻辑
-- **dashboard.css**: 响应式样式设计
-- **i18n.js**: 中英文双语支持
+### Frontend Interface
+- **dashboard.html**: Modern web dashboard
+- **dashboard.js**: Real-time data updates and interaction logic
+- **dashboard.css**: Responsive style design
+- **i18n.js**: English/Chinese bilingual support
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 1. 环境准备
+### 1. Environment Setup
+
 ```bash
-# 安装基础依赖
+# Install base dependencies
 pip install -r requirements.txt
 
-# 安装AI模型依赖（可选）
+# Install AI model dependencies (optional)
 pip install -r requirements_ai.txt
 ```
 
-### 2. 启动系统
+### 2. Start System
+
 ```bash
-# 方式1: 快速启动
+# Method 1: Quick launch
 python3 run.py
 
-# 方式2: 标准启动
+# Method 2: Standard launch
 python3 app.py
 ```
 
-### 3. 访问界面
-打开浏览器访问: http://localhost:5002
+### 3. Access Interface
 
-## 📝 开发指南
+Open browser: http://localhost:5002
 
-### 添加新的检测规则
-1. 修改 `anomaly_detector.py` 中的风险评分算法
-2. 更新 `defense_controller.py` 中的防御策略
-3. 在 `dashboard.js` 中添加相应的可视化
+## 📝 Development Guide
 
-### 训练新的AI模型
-1. 使用 `examples/train_ai_model.py` 训练模型
-2. 将训练好的模型保存到 `models/` 目录
-3. 更新 `configs/ai_model_config.json` 配置
+### Adding New Detection Rules
+1. Modify risk scoring algorithm in `anomaly_detector.py`
+2. Update defense strategies in `defense_controller.py`
+3. Add corresponding visualization in `dashboard.js`
 
-### 扩展防御策略
-1. 在 `defense_controller.py` 中添加新的防御动作
-2. 更新防御策略配置
-3. 测试防御效果
+### Training New AI Models
+1. Use `examples/train_ai_model.py` to train model
+2. Save trained model to `models/` directory
+3. Update `configs/ai_model_config.json` configuration
 
-## 🔍 文件说明
+### Extending Defense Strategies
+1. Add new defense actions in `defense_controller.py`
+2. Update defense strategy configuration
+3. Test defense effectiveness
 
-### 配置文件
-- `config.json`: 系统主配置
-- `configs/ai_model_config.json`: AI模型参数配置
-- `configs/doca_config.json`: DPU硬件配置
+## 🔍 File Descriptions
 
-### 模型文件
-- `models/anomaly_lstm.pth`: 预训练的LSTM异常检测模型
-- `models/usage_info.json`: 模型使用统计信息
+### Configuration Files
+- `config.json`: System main configuration
+- `configs/ai_model_config.json`: AI model parameter configuration
+- `configs/doca_config.json`: DPU hardware configuration
 
-### 文档文件
-- `README.md`: 项目主要文档
-- `docs/competition_guide.md`: 竞赛参与指南
-- `docs/development_without_hardware.md`: 无硬件开发指南
+### Model Files
+- `models/anomaly_lstm.pth`: Pre-trained LSTM anomaly detection model
+- `models/usage_info.json`: Model usage statistics
 
-## 🎯 项目特色
+### Documentation Files
+- `README.md`: Main project documentation
+- `docs/competition_guide.md`: Competition participation guide
+- `docs/development_without_hardware.md`: Development guide without hardware
 
-1. **模块化设计**: 清晰的组件分离，易于维护和扩展
-2. **混合检测**: 规则检测与AI检测的智能融合
-3. **实时性能**: 1秒检测周期，毫秒级响应
-4. **可视化界面**: 现代化Web仪表板，实时监控
-5. **硬件兼容**: 支持真实DPU和模拟模式
-6. **国际化**: 中英文双语支持
+## 🎯 Project Features
+
+1. **Modular Design**: Clear component separation, easy to maintain and extend
+2. **Hybrid Detection**: Intelligent fusion of rule-based and AI detection
+3. **Real-Time Performance**: 1-second detection cycle, millisecond-level response
+4. **Visual Interface**: Modern web dashboard with real-time monitoring
+5. **Hardware Compatible**: Support for real DPU and simulation mode
+6. **Internationalization**: English/Chinese bilingual support

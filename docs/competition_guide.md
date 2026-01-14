@@ -1,124 +1,126 @@
-# NVIDIA DPU 黑客松竞赛指南
+# NVIDIA DPU Hackathon Competition Guide
 
-## 比赛背景
-NVIDIA DPU (Data Processing Unit) 是专为数据中心设计的智能网卡，能够卸载和加速网络、存储和安全工作负载。
+## Background
 
-## 技术要点
+NVIDIA DPU (Data Processing Unit) is a smart NIC designed specifically for data centers, capable of offloading and accelerating network, storage, and security workloads.
 
-### DPU 核心特性
-- **网络卸载**: 将网络处理从 CPU 转移到 DPU
-- **存储加速**: 提供高性能存储访问
-- **安全功能**: 内置加密和安全处理能力
-- **可编程性**: 支持自定义应用程序开发
+## Technical Essentials
 
-### DOCA 框架
-DOCA (Data Center Infrastructure-on-a-Chip Architecture) 是 NVIDIA 为 DPU 提供的软件开发框架。
+### DPU Core Features
+- **Network Offloading**: Transfer network processing from CPU to DPU
+- **Storage Acceleration**: Provide high-performance storage access
+- **Security Functions**: Built-in encryption and security processing capabilities
+- **Programmability**: Support custom application development
 
-#### 主要组件
-- **DOCA Core**: 核心库和 API
-- **DOCA Apps**: 预构建的应用程序
-- **DOCA Services**: 服务框架
-- **DOCA Tools**: 开发和调试工具
+### DOCA Framework
 
-## 开发环境要求
+DOCA (Data Center Infrastructure-on-a-Chip Architecture) is NVIDIA's software development framework for DPU.
 
-### 硬件要求
-- NVIDIA BlueField DPU (推荐 BlueField-2 或更新版本)
-- 支持 PCIe 的主机系统
-- 足够的网络连接
+#### Main Components
+- **DOCA Core**: Core libraries and APIs
+- **DOCA Apps**: Pre-built applications
+- **DOCA Services**: Service framework
+- **DOCA Tools**: Development and debugging tools
 
-### 软件要求
-- Ubuntu 20.04 或更高版本
-- DOCA SDK 1.5 或更高版本
-- GCC 9+ 或 Clang 12+
+## Development Environment Requirements
+
+### Hardware Requirements
+- NVIDIA BlueField DPU (BlueField-2 or newer recommended)
+- Host system with PCIe support
+- Adequate network connectivity
+
+### Software Requirements
+- Ubuntu 20.04 or later
+- DOCA SDK 1.5 or later
+- GCC 9+ or Clang 12+
 - Python 3.8+
 
-## 常见应用场景
+## Common Application Scenarios
 
-### 1. 网络功能虚拟化 (NFV)
-- 虚拟路由器
-- 负载均衡器
-- 防火墙
+### 1. Network Function Virtualization (NFV)
+- Virtual routers
+- Load balancers
+- Firewalls
 
-### 2. 存储加速
+### 2. Storage Acceleration
 - NVMe over Fabric
-- 存储虚拟化
-- 数据压缩/解压缩
+- Storage virtualization
+- Data compression/decompression
 
-### 3. 安全应用
-- 加密/解密
-- 入侵检测
-- 流量分析
+### 3. Security Applications
+- Encryption/decryption
+- Intrusion detection
+- Traffic analysis
 
-### 4. 机器学习推理
-- 模型推理加速
-- 数据预处理
-- 实时分析
+### 4. Machine Learning Inference
+- Model inference acceleration
+- Data preprocessing
+- Real-time analytics
 
-## 开发最佳实践
+## Development Best Practices
 
-### 1. 性能优化
-- 利用 DPU 硬件卸载功能
-- 优化内存访问模式
-- 减少 CPU-DPU 通信开销
+### 1. Performance Optimization
+- Leverage DPU hardware offloading capabilities
+- Optimize memory access patterns
+- Reduce CPU-DPU communication overhead
 
-### 2. 代码质量
-- 遵循 DOCA 编程规范
-- 实现错误处理机制
-- 添加详细的日志记录
+### 2. Code Quality
+- Follow DOCA programming standards
+- Implement error handling mechanisms
+- Add detailed logging
 
-### 3. 测试策略
-- 单元测试覆盖
-- 性能基准测试
-- 压力测试验证
+### 3. Testing Strategy
+- Unit test coverage
+- Performance benchmarking
+- Stress testing validation
 
-## 评分标准详解
+## Judging Criteria Breakdown
 
-### 技术创新性 (30%)
-- 解决方案的原创性
-- 技术难度和创新点
-- 对 DPU 特性的充分利用
+### Technical Innovation (30%)
+- Solution originality
+- Technical difficulty and innovation points
+- Full utilization of DPU features
 
-### 功能完整性 (25%)
-- 功能实现的完整性
-- 用户界面和体验
-- 错误处理和稳定性
+### Functional Completeness (25%)
+- Implementation completeness
+- User interface and experience
+- Error handling and stability
 
-### 性能优化 (20%)
-- 性能提升效果
-- 资源利用效率
-- 可扩展性设计
+### Performance Optimization (20%)
+- Performance improvement results
+- Resource utilization efficiency
+- Scalability design
 
-### 代码质量 (15%)
-- 代码结构和可读性
-- 注释和文档
-- 遵循最佳实践
+### Code Quality (15%)
+- Code structure and readability
+- Comments and documentation
+- Adherence to best practices
 
-### 文档完整性 (10%)
-- 技术文档质量
-- 用户使用指南
-- 部署和配置说明
+### Documentation Completeness (10%)
+- Technical documentation quality
+- User guide
+- Deployment and configuration instructions
 
-## 参赛建议
+## Competition Tips
 
-### 1. 项目选择
-- 选择熟悉的技术领域
-- 考虑实际应用价值
-- 充分利用 DPU 特性
+### 1. Project Selection
+- Choose a familiar technical domain
+- Consider practical application value
+- Fully leverage DPU features
 
-### 2. 时间规划
-- 环境搭建: 1-2 天
-- 核心开发: 3-5 天
-- 测试优化: 1-2 天
-- 文档编写: 1 天
+### 2. Time Planning
+- Environment setup: 1-2 days
+- Core development: 3-5 days
+- Testing and optimization: 1-2 days
+- Documentation: 1 day
 
-### 3. 团队协作
-- 明确分工和职责
-- 定期沟通和同步
-- 代码版本管理
+### 3. Team Collaboration
+- Clear division of roles and responsibilities
+- Regular communication and synchronization
+- Code version management
 
-## 资源链接
-- [NVIDIA DOCA 官方文档](https://docs.nvidia.com/doca/)
-- [DPU 开发者社区](https://developer.nvidia.com/dpu)
-- [示例代码仓库](https://github.com/NVIDIA/doca-apps)
-- [技术论坛](https://forums.developer.nvidia.com/) 
+## Resource Links
+- [NVIDIA DOCA Official Documentation](https://docs.nvidia.com/doca/)
+- [DPU Developer Community](https://developer.nvidia.com/dpu)
+- [Sample Code Repository](https://github.com/NVIDIA/doca-apps)
+- [Technical Forums](https://forums.developer.nvidia.com/)
